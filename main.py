@@ -46,7 +46,7 @@ def add_button_fun():
 
     if(is_ok_to_save):
         pyperclip.copy(password)
-        with open("data.txt", "a") as file:
+        with open("./src/data.txt", "a") as file:
             file.write(f"\n{website}    |    {email_username}    |    {password}")
 
         website_input.delete(0, END)
@@ -62,7 +62,7 @@ window.title("Password Mannager")
 window.config(padx=50, pady=50)
 
 canvas = Canvas(width=200, height=200)
-logo = PhotoImage(file="password.png")
+logo = PhotoImage(file="./src/password.png")
 canvas.create_image(140, 100, image=logo)
 canvas.grid(row=0, column=1)
 
