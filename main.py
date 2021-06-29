@@ -107,40 +107,40 @@ def add_button_fun():
 
 window = Tk()
 window.title("Password Mannager")
-window.config(padx=50, pady=50)
+window.config(padx=50, pady=50, bg="#364547")
 
-canvas = Canvas(width=200, height=200)
+canvas = Canvas(width=205, height=200, bg="#364547", highlightthickness=0)
 logo = PhotoImage(file="./src/password.png")
 canvas.create_image(140, 100, image=logo)
 canvas.grid(row=0, column=1)
 
-website_label = Label(text="Website: ") 
-website_label.grid(row=1, column=0)
+website_label = Label(text="Website: ", bg="#364547", fg="white") 
+website_label.grid(row=1, column=0, pady=5, padx=5)
 
 website_input = Entry(width=24)
 website_input.insert(END, string="www.")
 website_input.focus()
-website_input.grid(row=1, column=1)
+website_input.grid(row=1, column=1, pady=5, padx=5)
 
-password_search = Button(text="Search", width=16, command=search_pass)
-password_search.grid(row=1, column=2)
+password_search = Button(text="Search", width=16, command=search_pass, bg="#444444", fg="white")
+password_search.grid(row=1, column=2, pady=5, padx=5)
 
-email_username_label = Label(text="Email/Username: ")
-email_username_label.grid(row=2, column=0)
+email_username_label = Label(text="Email/Username: ", bg="#364547", fg="white")
+email_username_label.grid(row=2, column=0, pady=5, padx=5)
 
 email_username_input = Entry(width=44)
-email_username_input.grid(row=2, column=1, columnspan=2)
+email_username_input.grid(row=2, column=1, columnspan=2, pady=5, padx=5)
 
-password_label = Label(text="Password: ")
-password_label.grid(row=3, column=0)
+password_label = Label(text="Password: ", bg="#364547", fg="white")
+password_label.grid(row=3, column=0, pady=5, padx=5)
 
 password_input = Entry(width=24)
-password_input.grid(row=3, column=1)
+password_input.grid(row=3, column=1, pady=5, padx=5)
 
-generate_pass_button = Button(text="Generate Password", command=pass_gen_button_fun)
-generate_pass_button.grid(row=3, column=2)
+generate_pass_button = Button(text="Generate Password", command=pass_gen_button_fun, bg="#444444", fg="white")
+generate_pass_button.grid(row=3, column=2, pady=5, padx=5)
 
-add_button = Button(text="Add", width=36, command=add_button_fun)
-add_button.grid(row=4, column=1, columnspan=2)
+add_button = Button(text="Add", width=36, command=add_button_fun, bg="#444444", fg="white")
+add_button.grid(row=4, column=1, columnspan=2, pady=5, padx=5)
 
 window.mainloop()
