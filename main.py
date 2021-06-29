@@ -6,6 +6,36 @@ import pyperclip
 import json
 
 
+#search password
+
+def search_pass():
+
+    searing_item = website_input.get()
+
+    try:
+        
+        with open("./src/data.json", "r") as file:
+            data = json.load(file)
+
+            if searing_item not in data:
+                raise ValueError
+
+    except ValueError:
+        messagebox.showinfo(title="Something Went Wrong", message="No Data Present, Please Insert Data")
+
+    except FileNotFoundError:
+        messagebox.showinfo(title="Something Went Wrong", message="No Data Present, Please Insert Data")
+
+    else:
+
+        if searing_item in data:
+            website = data[searing_item]
+            email = website["email"]
+            password = website["password"]
+
+            messagebox.showinfo(title=searing_item, message=f"Email: {email}\nPassword: {password}")
+
+
 #generating random password
 
 def pass_gen_button_fun():
@@ -31,19 +61,17 @@ def pass_gen_button_fun():
 # adding data
 
 def add_button_fun():
+
     website = website_input.get()
     email_username = email_username_input.get()
     password = password_input.get()
 
     if(len(website) == 0 or len(email_username) == 0 or len(password) == 0):
-
         messagebox.showerror(title="Oops...", message="Please Don't Leave Any Field Empty")
-        
+
     else:
-
-        is_ok_to_save = messagebox.askyesno(title="Check the Details", message=f"Website: {website}\n Email/Username: {email_username}\n"
-                                                                                f"Password: {password}\n Is It Ok To Save?") 
-
+        is_ok_to_save = messagebox.askyesno(title="Check the Details", message=f"Website: {website} \nEmail/Username: {email_username}\n"
+                                                                                f"Password: {password}\n\n Is It Ok To Save?") 
         new_data = {
                         website:{
                             "email": email_username,
@@ -55,15 +83,19 @@ def add_button_fun():
             pyperclip.copy(password)
 
             try:
+                
                 with open("./src/data.json", "r") as file:
                     data = json.load(file)
+
             except:
                 with open("./src/data.json", "w") as file:
                     json.dump(new_data, file, indent=4)
+
             else:
                 data.update(new_data)
                 with open("./src/data.json", "w") as file:
                     json.dump(data, file, indent=4)
+
             finally:
                 website_input.delete(0, END)
                 website_input.insert(END, string="www.")
@@ -85,15 +117,18 @@ canvas.grid(row=0, column=1)
 website_label = Label(text="Website: ") 
 website_label.grid(row=1, column=0)
 
-website_input = Entry(width=43)
+website_input = Entry(width=24)
 website_input.insert(END, string="www.")
 website_input.focus()
-website_input.grid(row=1, column=1, columnspan=2)
+website_input.grid(row=1, column=1)
+
+password_search = Button(text="Search", width=16, command=search_pass)
+password_search.grid(row=1, column=2)
 
 email_username_label = Label(text="Email/Username: ")
 email_username_label.grid(row=2, column=0)
 
-email_username_input = Entry(width=43)
+email_username_input = Entry(width=44)
 email_username_input.grid(row=2, column=1, columnspan=2)
 
 password_label = Label(text="Password: ")
