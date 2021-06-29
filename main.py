@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint, shuffle, choice
 import pyperclip
+import json
 
 
 #generating random password
@@ -12,7 +13,6 @@ def pass_gen_button_fun():
     password_input.delete(0, END)
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
     symbols = ['!', '#', '%', '&', '(', ')', '*', '+', '_', '-', '/']
 
@@ -35,24 +35,40 @@ def add_button_fun():
     email_username = email_username_input.get()
     password = password_input.get()
 
-    is_ok_to_save = True
     if(len(website) == 0 or len(email_username) == 0 or len(password) == 0):
+
         messagebox.showerror(title="Oops...", message="Please Don't Leave Any Field Empty")
-        is_ok_to_save = False
+        
+    else:
 
-    if(is_ok_to_save):
         is_ok_to_save = messagebox.askyesno(title="Check the Details", message=f"Website: {website}\n Email/Username: {email_username}\n"
-                                                                                f"Password: {password}\n Is It Ok To Save?")
+                                                                                f"Password: {password}\n Is It Ok To Save?") 
 
-    if(is_ok_to_save):
-        pyperclip.copy(password)
-        with open("./src/data.txt", "a") as file:
-            file.write(f"\n{website}    |    {email_username}    |    {password}")
+        new_data = {
+                        website:{
+                            "email": email_username,
+                            "password" : password,
+                        }
+        }
 
-        website_input.delete(0, END)
-        website_input.insert(END, string="www.")
-        email_username_input.delete(0, END)
-        password_input.delete(0, END)
+        if(is_ok_to_save):
+            pyperclip.copy(password)
+
+            try:
+                with open("./src/data.json", "r") as file:
+                    data = json.load(file)
+            except:
+                with open("./src/data.json", "w") as file:
+                    json.dump(new_data, file, indent=4)
+            else:
+                data.update(new_data)
+                with open("./src/data.json", "w") as file:
+                    json.dump(data, file, indent=4)
+            finally:
+                website_input.delete(0, END)
+                website_input.insert(END, string="www.")
+                email_username_input.delete(0, END)
+                password_input.delete(0, END)
 
 
 #gui Design
