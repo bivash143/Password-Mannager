@@ -1,9 +1,35 @@
 #! /usr/bin/python3
 from tkinter import *
 from tkinter import messagebox
+from random import randint, shuffle, choice
+import pyperclip
+
+
+#generating random password
+
+def pass_gen_button_fun():
+
+    password_input.delete(0, END)
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '%', '&', '(', ')', '*', '+', '_', '-', '/']
+
+    password_letters = [choice(letters) for x in range(randint(8, 10))]
+    password_symbol = [choice(numbers) for x in range(randint(2, 4))]
+    password_numbers = [choice(symbols) for x in range(randint(2, 4))]
+
+    password_list = password_letters + password_symbol+ password_numbers
+
+    shuffle(password_list)
+    password = "".join(password_list)
+
+    password_input.insert(0, string=password)
 
 
 # adding data
+
 def add_button_fun():
     website = website_input.get()
     email_username = email_username_input.get()
@@ -19,6 +45,7 @@ def add_button_fun():
                                                                                 f"Password: {password}\n Is It Ok To Save?")
 
     if(is_ok_to_save):
+        pyperclip.copy(password)
         with open("data.txt", "a") as file:
             file.write(f"\n{website}    |    {email_username}    |    {password}")
 
@@ -26,8 +53,6 @@ def add_button_fun():
         website_input.insert(END, string="www.")
         email_username_input.delete(0, END)
         password_input.delete(0, END)
-
-
 
 
 #gui Design
@@ -61,7 +86,7 @@ password_label.grid(row=3, column=0)
 password_input = Entry(width=24)
 password_input.grid(row=3, column=1)
 
-generate_pass_button = Button(text="Generate Password")
+generate_pass_button = Button(text="Generate Password", command=pass_gen_button_fun)
 generate_pass_button.grid(row=3, column=2)
 
 add_button = Button(text="Add", width=36, command=add_button_fun)
